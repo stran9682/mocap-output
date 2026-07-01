@@ -2,15 +2,16 @@ import pickle
 import numpy as np
 
 result = pickle.load(open('00005_prediction_result.pkl', 'rb'))
+pred_output = result['pred_output_list'][0]
 
-for key in result['pred_output_list'][0].keys():
-    print(key, np.array(result['pred_output_list'][0][key]).shape)
+for key in pred_output.keys():
+    print(key, np.array(pred_output[key]).shape)
 
-betas = [result['pred_output_list'][0]['pred_betas'][0]]
-global_orient = [result['pred_output_list'][0]['pred_body_pose'][0][:3]]
-body_pose = [result['pred_output_list'][0]['pred_body_pose'][0][4:67]]
-left_hand_pose = [result['pred_output_list'][0]['pred_left_hand_pose'][0]]
-right_hand_pose = [result['pred_output_list'][0]['pred_right_hand_pose'][0]]
+betas = [pred_output['pred_betas'][0]]
+global_orient = [pred_output['pred_body_pose'][0][:3]]
+body_pose = [pred_output['pred_body_pose'][0][3:66]]
+left_hand_pose = [pred_output['pred_left_hand_pose'][0]]
+right_hand_pose = [pred_output['pred_right_hand_pose'][0]]
 transl = [[0] * 3]
 jaw_pose = [[0] * 3]
 leye_pose = [[0] * 3]
@@ -35,9 +36,10 @@ with open("body_pose.pkl", "wb") as file:
 
 print("="*50)
 
-# this is correct data here
 # keys ['betas', 'global_orient', 'body_pose', 'left_hand_pose', 'right_hand_pose', 'transl', 'jaw_pose', 'leye_pose', 'reye_pose', 'expression']
 sample = pickle.load(open('10069_m_Kenneth_0_0.pkl', 'rb'))
+test = pickle.load(open('body_pose.pkl', 'rb'))
 
 for key in sample.keys():
     print(key, np.array(sample[key]).shape)
+    print(key, np.array(test[key]).shape)
